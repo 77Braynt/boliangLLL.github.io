@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>关于eventloop事件循环机制和aysnc和await的解决异步方法的详解 | 凉薄凉 | blogs</title>
+  <meta name="description" content="此文章是我在朋友推荐给我看的文章，然后我自己想总结一下关于eventloop事件和aysnc和await的事件解决顺序（不讲解其中原理。讲顺序）。如果我讲解的有问题。 麻烦发我邮箱，嘻嘻嘻。 很高兴大家帮我指出错误。  此文章是参考下面两个博客文章的解释。 如果我讲解的不清楚，你们可以去该文章了解一下,我觉的他们解释的挺清楚和挺好的。https://www.cnblogs.com/hanzhech">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于eventloop事件循环机制和aysnc和await的解决异步方法的详解">
+<meta property="og:url" content="https://bolianglll.github.io/2018/12/04/关于eventloop事件监听机制和aysnc和await的解决异步方法的详解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="此文章是我在朋友推荐给我看的文章，然后我自己想总结一下关于eventloop事件和aysnc和await的事件解决顺序（不讲解其中原理。讲顺序）。如果我讲解的有问题。 麻烦发我邮箱，嘻嘻嘻。 很高兴大家帮我指出错误。  此文章是参考下面两个博客文章的解释。 如果我讲解的不清楚，你们可以去该文章了解一下,我觉的他们解释的挺清楚和挺好的。https://www.cnblogs.com/hanzhech">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-05T03:36:06.566Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于eventloop事件循环机制和aysnc和await的解决异步方法的详解">
+<meta name="twitter:description" content="此文章是我在朋友推荐给我看的文章，然后我自己想总结一下关于eventloop事件和aysnc和await的事件解决顺序（不讲解其中原理。讲顺序）。如果我讲解的有问题。 麻烦发我邮箱，嘻嘻嘻。 很高兴大家帮我指出错误。  此文章是参考下面两个博客文章的解释。 如果我讲解的不清楚，你们可以去该文章了解一下,我觉的他们解释的挺清楚和挺好的。https://www.cnblogs.com/hanzhech">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://bolianglll.github.io/2018/12/04/关于eventloop事件监听机制和aysnc和await的解决异步方法的详解/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/boliangLLL" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">伯伯伯亮</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一位热爱前端的攻城狮</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> GuangZhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/boliangLLL" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/04/“实战项目技术总结”/" class="title">“实战项目用到的技术总结”</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-04T02:19:41.000Z" itemprop="datePublished">2018-12-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/04/关于eventloop事件监听机制和aysnc和await的解决异步方法的详解/" class="title">关于eventloop事件循环机制和aysnc和await的解决异步方法的详解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-04T02:19:41.000Z" itemprop="datePublished">2018-12-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/03/前端学习资料/" class="title">前端学习资料</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-03T09:00:16.296Z" itemprop="datePublished">2018-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/11/27/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-27T02:04:45.726Z" itemprop="datePublished">2018-11-27</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-关于eventloop事件监听机制和aysnc和await的解决异步方法的详解" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于eventloop事件循环机制和aysnc和await的解决异步方法的详解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/12/04/关于eventloop事件监听机制和aysnc和await的解决异步方法的详解/" class="article-date">
+	  <time datetime="2018-12-04T02:19:41.000Z" itemprop="datePublished">2018-12-04</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/04/关于eventloop事件监听机制和aysnc和await的解决异步方法的详解/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>此文章是我在朋友推荐给我看的文章，然后我自己想总结一下关于eventloop事件和aysnc和await的事件解决顺序（不讲解其中原理。讲顺序）。<br>如果我讲解的有问题。 麻烦发我邮箱，嘻嘻嘻。 很高兴大家帮我指出错误。</p>
+<blockquote>
+<p>此文章是参考下面两个博客文章的解释。 如果我讲解的不清楚，你们可以去该文章了解一下,我觉的他们解释的挺清楚和挺好的。<br><a href="https://www.cnblogs.com/hanzhecheng/p/9046144.html" target="_blank" rel="noopener">https://www.cnblogs.com/hanzhecheng/p/9046144.html</a> <strong>eventloop</strong><br><a href="https://juejin.im/post/5c0397186fb9a049b5068e54" target="_blank" rel="noopener">https://juejin.im/post/5c0397186fb9a049b5068e54</a>     <strong>async</strong></p>
+</blockquote>
+<h3 id="eventloop事件循环机制"><a href="#eventloop事件循环机制" class="headerlink" title="eventloop事件循环机制"></a>eventloop事件循环机制</h3><p>JavaScript的事件分两种，宏任务(macro-task)和微任务(micro-task)</p>
+<p>宏任务：包括整体代码script，setTimeout，setInterval<br>微任务：Promise.then(非new Promise)，process.nextTick(node中)</p>
+<p>事件的执行顺序，是先执行宏任务，然后执行微任务，这个是基础，任务可以有同步任务和异步任务，同步的进入主线程，异步的进入Event Table并注册函数，异步事件完成后，会将回调函数放入Event Queue中(宏任务和微任务是不同的Event Queue)，同步任务执行完成后，会从Event Queue中读取事件放入主线程执行，回调函数中可能还会包含不同的任务，因此会循环执行上述操作。</p>
+<blockquote>
+<p>JS是单线程语言也就是说，JS一次只能做一件事情。<br>cpu处理指令速度非常快，远比磁盘I/O和网络I/O速度快，所以一些cpu直接执行的任务就成了优先执行主线任务（即同步任务synchronous），然后需要io返回数据的任务就成了等待被执行的任务（即异步任务asynchronous）<br>同步任务：在主线程上排队执行的任务，前一个任务执行完毕，才能执行后一个任务；<br>异步任务：不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
+</blockquote>
+<h4 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'1'</span>);</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'2'</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'3'</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'4'</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'5'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">输出：</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>宏任务同步代码console.log(‘1’),不多说<br>setTimeout，加入宏任务Event Queue，没有发现微任务，第一轮事件循环走完<br>第二轮事件循环开始，先执行宏任务，从宏任务Event Queue中独取出setTimeout的回调函数<br>同步代码console.log(‘2’),发现process.nextTick，加入微任务Event Queue<br>new Promise，同步执行console.log(‘4’),发现then，加入微任务Event Queue<br>宏任务执行完毕，接下来执行微任务，先执行process.nextTick，然后执行Promise.then<br>微任务执行完毕，第二轮事件循环走完，没有发现宏任务，事件循环结束</p>
+<blockquote>
+<p>总结:<br>1.事件循环，先执行宏任务，其中同步任务立即执行，异步任务，加载到对应的的Event Queue中(setTimeout等加入宏任务的Event Queue，Promise.then加入微任务的Event Queue)，<br>2.所有同步宏任务执行完毕后，如果发现微任务的Event Queue中有未执行的任务，会先执行其中的任务，这样算是完成了一次事件循环。<br>3.接下来查看宏任务的Event Queue中是否有未执行的任务，有的话，就开始第二轮事件循环，依此类推。<br>记得上面的宏任务和微任务的分类。<br>这个就是JS的eventloop的循环时间机制</p>
+</blockquote>
+<h3 id="ES6async和await的解决异步函数方法-事件顺序"><a href="#ES6async和await的解决异步函数方法-事件顺序" class="headerlink" title="ES6async和await的解决异步函数方法-事件顺序"></a>ES6async和await的解决异步函数方法-事件顺序</h3><h4 id="1-async介绍"><a href="#1-async介绍" class="headerlink" title="1.async介绍"></a>1.async介绍</h4><blockquote>
+<p>async function 用于声明 一个 返回 AsyncFunction 对象的异步函数。异步函数是值通过事件循环异步执行的函数，<strong>它会通过一个隐式的 Promise 返回其结果</strong>。如果你的代码使用了异步函数，它的语法和结构更像是标准的同步函数<br>也就是说每一个async都会返回来一个隐式的 Promise .如果还想了解更多关于async的内容，可以去上面分享的那个博主的网站去看。 我在下面想分析关于async的事件顺序机制。下面的解释不代表博主的说法错误。本人只是想通过eventloop的解释，去解释下面的顺序</p>
+</blockquote>
+<h4 id="async-Promise-setTimeout-定时器-的结合使用情况"><a href="#async-Promise-setTimeout-定时器-的结合使用情况" class="headerlink" title="async Promise setTimeout(定时器) 的结合使用情况"></a>async Promise setTimeout(定时器) 的结合使用情况</h4><p>求下面输出结果<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 start'</span>)</span><br><span class="line">    <span class="keyword">await</span> async2()</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 end'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async2'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script start'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;,<span class="number">0</span>)  </span><br><span class="line">async1();</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise1'</span>)</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script end'</span>)</span><br></pre></td></tr></table></figure></p>
+<p> 正确的答案是：<br>script start<br>async1 start<br>async2<br>promise1<br>script end<br>promise2<br>async1 end<br>setTimeou</p>
+<blockquote>
+<p>非常重要的一句是：<strong>遇到 await 表达式时，会让 async 函数 暂停执行，等到 await 后面的语句（Promise）状态发生改变（resolved或者rejected）之后，再恢复 async 函数的执行（再之后 await 下面的语句），并返回解析值（Promise的值）</strong></p>
+</blockquote>
+<p>解释上面的顺序：<br>1.执行同步任务-console.log(‘script start’) /1<br>2.遇到了宏任务，且为异步的setTimeout。 把次函数加入到宏任务的Event Queue<br>3.执行async1（）里面的同步代码      console.log(‘async1 start’)/2<br>4.执行 async2()里面的同步代码        console.log(‘async2’) /3（但是async2函数是给async定义的一个函数。 他会返回来一个隐式的promise对象,而且也会<strong>跳出上面的async1函数</strong>）<br>4.执行promise的同步代码   console.log(‘promise1’)/4。 遇到了promise().resolve(). 返回来了一个promise对象，。<br>5.执行同步console.log(‘script end’)/5。<br>第一轮事件走完<br>第二轮时间开始<br>6执行async2()中的promise()。要等待reslove()。 把他压进队列（）。<br>7执行.then后面的函数 console.log(‘promise2’)/6.<br>第三轮开始<br>等待完async2的promise()之后。 执行   console.log(‘async1 end’)</p>
+<p>可能大家还没多理解。 我一开始也是。 然后我测试多了几次后列如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">async1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 start'</span>)</span><br><span class="line">    <span class="keyword">await</span> async2()</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async1 end'</span>)</span><br><span class="line">&#125;</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">async2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'async2'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script start'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'setTimeout'</span>)</span><br><span class="line">&#125;,<span class="number">0</span>)  </span><br><span class="line">async1();</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise1'</span>)</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'promise2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'script end'</span>)</span><br></pre></td></tr></table></figure>
+<p> 正确的答案是：<br>script start<br>async1 start<br>async2<br>promise1<br>script end<br>async1 end<br>promise2<br>setTimeou</p>
+<p>解释上面的顺序：<br>第一轮事件和上面的类似。 但是没有async2()没有给async封装。 不会返回来一个promose()对象。所以第二轮有问题<br>第一轮事件走完<br>第二轮时间开始<br>6.执行    console.log(‘async1 end’)<br>7执行.then后面的函数 console.log(‘promise2’)<br>上面的顺序就会有变化了。</p>
+<p>总结一下：<br>除此之外。我在一些评论下看到：</p>
+<blockquote>
+<p><strong>宏任务的优先级，是高于微任务的啊，settimeout 是去了下一个event loop。而且我们可以把await后面的代码。都当promise.then（微任务），这样就非常的好理解了</strong>—其实看到这， 我就更清楚上面的顺序了。。 哈哈 ，–新手理解。 当压进队列后，会从一开始再运行一下。</p>
+</blockquote>
+<p>其实上面我讲的可能有点混乱。 但是这可能是我自己一开始比较好理解的方法。然后一步一步看到别人的想法，才更容易理解。 如果讲的不够清楚。可以去上面的那些博客主里面看一看。欢迎大家给我意见。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://bolianglll.github.io/2018/12/04/关于eventloop事件监听机制和aysnc和await的解决异步方法的详解/" title="关于eventloop事件循环机制和aysnc和await的解决异步方法的详解" target="_blank" rel="external">https://bolianglll.github.io/2018/12/04/关于eventloop事件监听机制和aysnc和await的解决异步方法的详解/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/boliangLLL" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/boliangLLL" target="_blank"><span class="text-dark">伯伯伯亮</span><small class="ml-1x">一位热爱前端的攻城狮</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/12/04/“实战项目技术总结”/" title="“实战项目用到的技术总结”"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/12/03/前端学习资料/" title="前端学习资料"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/zhifubao.jpg" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatboliang.jpg" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/boliangLLL" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
