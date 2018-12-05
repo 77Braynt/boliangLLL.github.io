@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="在最近我在做自己的项目的过程之中， 在CSS中。我遇到了 box-sizing border-box;我通过用这个 box-sizing border-box;，简化了不少代码。 所以想在这通过网上的一些文章，和自己的一些理解来介绍一下 content-box指定元素的宽度和高度（最小/最大属性）适用于box的宽度和高度。元素的填充和边框布局和绘制指定宽度和高度除外 border-box指定宽度和">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-05T06:54:09.943Z">
+<meta property="og:updated_time" content="2018-12-05T09:29:14.481Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于CSS3中的 box-sizing border-box;">
 <meta name="twitter:description" content="在最近我在做自己的项目的过程之中， 在CSS中。我遇到了 box-sizing border-box;我通过用这个 box-sizing border-box;，简化了不少代码。 所以想在这通过网上的一些文章，和自己的一些理解来介绍一下 content-box指定元素的宽度和高度（最小/最大属性）适用于box的宽度和高度。元素的填充和边框布局和绘制指定宽度和高度除外 border-box指定宽度和">
@@ -351,7 +351,7 @@
 <h3 id="border-box"><a href="#border-box" class="headerlink" title="border-box"></a>border-box</h3><p>指定宽度和高度（最小/最大属性）确定元素边框box。也就是说，对元素指定<strong>宽度</strong>和<strong>高度</strong>包括padding和border的指定。<strong>内容的宽度和高度减去各自双方该边框和填充的宽度从指定的”宽度”和”高度”属性计算</strong></p>
 <h3 id="inherit"><a href="#inherit" class="headerlink" title="inherit"></a>inherit</h3><p>指定box-sizing属性的值，应该从父元素继承</p>
 <p>对于boder-box的计算方法<br>border-box  width 和 height 属性包括内容，内边距和边框，但不包括外边距。这是当文档处于 Quirks模式 时Internet Explorer使用的盒模型。注意，填充和边框将在盒子内 , 例如, .box {width: 350px; border: 10px solid black;} 导致在浏览器中呈现的宽度为350px的盒子。内容框不能为负，并且被分配到0，使得不可能使用border-box使元素消失。<br>这里的维度计算为： width = border + padding + 内容的  width， height = border + padding + 内容的 height。</p>
-<p>总结<br>一般写页面对ui设计好的来说，我们最好使用这个属性，这样对整体布局很有好处，不然，页面很容易出现问题。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>一般写页面对ui设计好的来说，我们最好使用这个属性，这样对整体布局很有好处，不然，页面很容易出现问题。</strong></p>
 <hr>
 <blockquote>
 <p>便于朋友记忆。 加多一个overflow:hidden的用法在此文章</p>
