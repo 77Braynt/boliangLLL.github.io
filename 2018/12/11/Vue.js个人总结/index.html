@@ -17,20 +17,20 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>“实战项目用到的技术总结” | 凉薄凉 | blogs</title>
-  <meta name="description" content="大概先总结一下后面会总结。请等待   公司项目XX（不透露）1.上了生产之后， 如何做到版本控制。 —-JSAPI上控制">
+  <title>Vue.js个人经验总结 | 凉薄凉 | blogs</title>
+  <meta name="description" content="其实Vue里，在我们开发中，大多数的东西我们都可以在vue.js的官网里找到。但是也有些 在你封指令或者组件时候。有更便捷的方法，或者可以用高级用法来形容。 自定义指令 除了核心功能默认内置的指令 (v-model 和 v-show)，Vue 也允许注册自定义指令。注意，在 Vue2.0 中，代码复用和抽象的主要形式是组件。然而，有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“实战项目用到的技术总结”">
-<meta property="og:url" content="https://bolianglll.github.io/2018/12/04/“实战项目技术总结”/index.html">
+<meta property="og:title" content="Vue.js个人经验总结">
+<meta property="og:url" content="https://bolianglll.github.io/2018/12/11/Vue.js个人总结/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="大概先总结一下后面会总结。请等待   公司项目XX（不透露）1.上了生产之后， 如何做到版本控制。 —-JSAPI上控制">
+<meta property="og:description" content="其实Vue里，在我们开发中，大多数的东西我们都可以在vue.js的官网里找到。但是也有些 在你封指令或者组件时候。有更便捷的方法，或者可以用高级用法来形容。 自定义指令 除了核心功能默认内置的指令 (v-model 和 v-show)，Vue 也允许注册自定义指令。注意，在 Vue2.0 中，代码复用和抽象的主要形式是组件。然而，有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-11T07:29:11.401Z">
+<meta property="og:updated_time" content="2018-12-11T08:18:51.409Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="“实战项目用到的技术总结”">
-<meta name="twitter:description" content="大概先总结一下后面会总结。请等待   公司项目XX（不透露）1.上了生产之后， 如何做到版本控制。 —-JSAPI上控制">
+<meta name="twitter:title" content="Vue.js个人经验总结">
+<meta name="twitter:description" content="其实Vue里，在我们开发中，大多数的东西我们都可以在vue.js的官网里找到。但是也有些 在你封指令或者组件时候。有更便捷的方法，或者可以用高级用法来形容。 自定义指令 除了核心功能默认内置的指令 (v-model 和 v-show)，Vue 也允许注册自定义指令。注意，在 Vue2.0 中，代码复用和抽象的主要形式是组件。然而，有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://bolianglll.github.io/2018/12/04/“实战项目技术总结”/index.html">
+  <link rel="canonical" href="https://bolianglll.github.io/2018/12/11/Vue.js个人总结/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -316,14 +316,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-“实战项目技术总结”" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-Vue.js个人总结" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      “实战项目用到的技术总结”
+      Vue.js个人经验总结
     </h1>
   
 
@@ -331,8 +331,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2018/12/04/“实战项目技术总结”/" class="article-date">
-	  <time datetime="2018-12-04T02:19:41.000Z" itemprop="datePublished">2018-12-04</time>
+	<a href="/2018/12/11/Vue.js个人总结/" class="article-date">
+	  <time datetime="2018-12-11T08:13:05.771Z" itemprop="datePublished">2018-12-11</time>
 	</a>
 </span>
         
@@ -340,30 +340,20 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/04/“实战项目技术总结”/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/11/Vue.js个人总结/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="大概先总结一下"><a href="#大概先总结一下" class="headerlink" title="大概先总结一下"></a>大概先总结一下</h2><p>后面会总结。请等待</p>
-<!-- ### 模仿去哪儿APP
-前端框架：Vue框架
-样式模板：iconfont,vue-awesome-swiper(vue里面推荐使用的轮播图)
-CSS:stylus
-数据传输工具：axious
-路由跳转：vue-router
-数据传输：get post的区别
-重点：GET把参数包含在URL中，POST通过request body传递参数。
-get的话 就是能获取数据， 但是不能保存。 就是表单那些不能保存
-Post的话 可以获取数据也能保存。
-
-另外：
-GET请求在URL中传送的参数是有长度限制的，而POST么有。
-GET请求只能进行url编码，而POST支持多种编码方式
-代码管理:Git，码云 --> 
-<h3 id="公司项目XX（不透露）"><a href="#公司项目XX（不透露）" class="headerlink" title="公司项目XX（不透露）"></a>公司项目XX（不透露）</h3><p>1.上了生产之后， 如何做到版本控制。 —-JSAPI上控制</p>
-
+        <p>其实Vue里，在我们开发中，大多数的东西我们都可以在vue.js的官网里找到。但是也有些 在你封指令或者组件时候。有更便捷的方法，或者可以用高级用法来形容。</p>
+<h3 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h3><blockquote>
+<p>除了核心功能默认内置的指令 (v-model 和 v-show)，Vue 也允许注册自定义指令。注意，在 Vue2.0 中，代码复用和抽象的主要形式是组件。然而，有的情况下，你仍然需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令。举个聚焦输入框的例子<br>当页面加载时，该元素将获得焦点 (注意：autofocus 在移动版 Safari 上不工作)。事实上，只要你在打开这个页面后还没点击过任何内容，这个输入框就应当还是处于聚焦状态。现在让我们用指令来实现这个功能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 注册一个全局自定义指令 `v-focus`</span><br><span class="line">Vue.directive(&apos;focus&apos;, &#123;</span><br><span class="line">  // 当被绑定的元素插入到 DOM 中时……</span><br><span class="line">  inserted: function (el) &#123;</span><br><span class="line">    // 聚焦元素</span><br><span class="line">    el.focus()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>如果想注册局部指令，组件中也接受一个 directives 的选项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">directives: &#123;</span><br><span class="line">  focus: &#123;</span><br><span class="line">    // 指令的定义</span><br><span class="line">    inserted: function (el) &#123;</span><br><span class="line">      el.focus()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用 然后你可以在模板中任何元素上使用新的 v-focus 属性，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input v-focus&gt;</span><br></pre></td></tr></table></figure></p>
+<p>例如 VUX里面也提供了 TransferDom 的自定义指令。 </p>
+<h3 id="render"><a href="#render" class="headerlink" title="render"></a>render</h3>
       
     </div>
     <div class="article-footer">
@@ -372,7 +362,7 @@ GET请求只能进行url编码，而POST支持多种编码方式
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://bolianglll.github.io/2018/12/04/“实战项目技术总结”/" title="“实战项目用到的技术总结”" target="_blank" rel="external">https://bolianglll.github.io/2018/12/04/“实战项目技术总结”/</a>
+      <a href="https://bolianglll.github.io/2018/12/11/Vue.js个人总结/" title="Vue.js个人经验总结" target="_blank" rel="external">https://bolianglll.github.io/2018/12/11/Vue.js个人总结/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -418,13 +408,9 @@ GET请求只能进行url编码，而POST支持多种编码方式
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2018/12/04/成长的点点滴滴基础/" title="成长的点点滴滴基础"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2018/12/03/前端学习资料/" title="前端学习资料"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/" title="亮眼操作：关于vux的v-transfer-dom的指令"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
