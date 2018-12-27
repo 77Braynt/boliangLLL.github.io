@@ -17,20 +17,25 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>亮眼操作：关于vux的v-transfer-dom的指令 | 凉薄凉 | blogs</title>
-  <meta name="description" content="在我自己的移动端项目实战项目中， 我在封装组件的时候，偶尔会弹出很多框，列如还有一些遮罩搭配弹窗的东西。 往往，我们为了复用性更高。 我们会封装成组件。问题来了， 我们要怎么定位到body的宽度，而去无视父组件的宽度和高度呢？ 这个时候，vux的v-transfer-dom指令， 就会让我们更容易的去封装这些弹框组。让代码更加简单  在我们开发的过程中，我们用到了Vux,而且遇到 Alert P">
+  <title>对于制作滚动代码。JS中offsetTop、clientTop、scrollTop各位置属性详解 | 凉薄凉 | blogs</title>
+  <meta name="description" content="最近在做自己的一个web端项目（XXX）。 然后在制作滚动代码的时候， 发现自己对offsetTop、clientTop、scrollTop、offsetTop忘记的有点多。。。以前可能对这个操作行云流水的。。。哈哈哈，可能是做的公司Vue项目多， 很少用DOM操作。 突然来做一个滚动代码。。。。。所以，还是得温故而知新  转载：https://github.com/pramper/Blog/i">
 <meta property="og:type" content="article">
-<meta property="og:title" content="亮眼操作：关于vux的v-transfer-dom的指令">
-<meta property="og:url" content="https://bolianglll.github.io/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/index.html">
+<meta property="og:title" content="对于制作滚动代码。JS中offsetTop、clientTop、scrollTop各位置属性详解">
+<meta property="og:url" content="https://bolianglll.github.io/2018/12/12/JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="在我自己的移动端项目实战项目中， 我在封装组件的时候，偶尔会弹出很多框，列如还有一些遮罩搭配弹窗的东西。 往往，我们为了复用性更高。 我们会封装成组件。问题来了， 我们要怎么定位到body的宽度，而去无视父组件的宽度和高度呢？ 这个时候，vux的v-transfer-dom指令， 就会让我们更容易的去封装这些弹框组。让代码更加简单  在我们开发的过程中，我们用到了Vux,而且遇到 Alert P">
+<meta property="og:description" content="最近在做自己的一个web端项目（XXX）。 然后在制作滚动代码的时候， 发现自己对offsetTop、clientTop、scrollTop、offsetTop忘记的有点多。。。以前可能对这个操作行云流水的。。。哈哈哈，可能是做的公司Vue项目多， 很少用DOM操作。 突然来做一个滚动代码。。。。。所以，还是得温故而知新  转载：https://github.com/pramper/Blog/i">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-07T09:22:13.150Z">
+<meta property="og:image" content="https://img-blog.csdn.net/20180104085724397">
+<meta property="og:image" content="https://camo.githubusercontent.com/3318530334bbc8f5e7ce267866c43ba72fa01f32/687474703a2f2f6f61376436647871742e626b742e636c6f7564646e2e636f6d2f626c6f672f696d616765732f3038313734323039323736363338392e6a7067">
+<meta property="og:image" content="https://camo.githubusercontent.com/7d539d32766b01f59701492d56d2957d83c29d03/687474703a2f2f6f61376436647871742e626b742e636c6f7564646e2e636f6d2f626c6f672f696d616765732f7363726f6c6c4865696768742e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/e6efea72d00a9e63d840ebb3b00ae61c213992ed/687474703a2f2f6f61376436647871742e626b742e636c6f7564646e2e636f6d2f626c6f672f696d616765732f44696d656e73696f6e732d636c69656e742e706e67">
+<meta property="og:updated_time" content="2018-12-13T02:51:11.157Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="亮眼操作：关于vux的v-transfer-dom的指令">
-<meta name="twitter:description" content="在我自己的移动端项目实战项目中， 我在封装组件的时候，偶尔会弹出很多框，列如还有一些遮罩搭配弹窗的东西。 往往，我们为了复用性更高。 我们会封装成组件。问题来了， 我们要怎么定位到body的宽度，而去无视父组件的宽度和高度呢？ 这个时候，vux的v-transfer-dom指令， 就会让我们更容易的去封装这些弹框组。让代码更加简单  在我们开发的过程中，我们用到了Vux,而且遇到 Alert P">
+<meta name="twitter:title" content="对于制作滚动代码。JS中offsetTop、clientTop、scrollTop各位置属性详解">
+<meta name="twitter:description" content="最近在做自己的一个web端项目（XXX）。 然后在制作滚动代码的时候， 发现自己对offsetTop、clientTop、scrollTop、offsetTop忘记的有点多。。。以前可能对这个操作行云流水的。。。哈哈哈，可能是做的公司Vue项目多， 很少用DOM操作。 突然来做一个滚动代码。。。。。所以，还是得温故而知新  转载：https://github.com/pramper/Blog/i">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20180104085724397">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://bolianglll.github.io/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/index.html">
+  <link rel="canonical" href="https://bolianglll.github.io/2018/12/12/JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -216,7 +221,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -235,70 +240,70 @@
                 
               </p>
               <p class="item-title">
+                <a href="/2018/12/19/JS回收垃圾机制了解/" class="title">JS回收垃圾机制了解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-19T04:50:01.044Z" itemprop="datePublished">2018-12-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/13/深入了解Vuex原理/" class="title">深入了解Vuex原理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-12T16:00:00.000Z" itemprop="datePublished">2018-12-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/13/localStorage、sessionStorage、Cookie的区别及用法/" class="title">localStorage、sessionStorage、Cookie的区别及用法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-12T16:00:00.000Z" itemprop="datePublished">2018-12-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/12/JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解/" class="title">对于制作滚动代码。JS中offsetTop、clientTop、scrollTop各位置属性详解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-12T07:31:21.947Z" itemprop="datePublished">2018-12-12</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
                 <a href="/2018/12/11/Vue.js个人总结/" class="title">Vue.js个人经验总结</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-12-11T08:13:05.771Z" itemprop="datePublished">2018-12-11</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/" class="title">亮眼操作：关于vux的v-transfer-dom的指令</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-12-06T02:19:41.000Z" itemprop="datePublished">2018-12-06</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/12/06/在公司项目和自己实战项目的GIT干货操作/" class="title">在公司项目和自己实战项目的GIT干货操作</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-12-06T02:19:41.000Z" itemprop="datePublished">2018-12-06</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/12/05/CSS3中的'' box-sizing border-box;'微妙之处/" class="title">关于CSS3中的 box-sizing border-box;</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-12-05T04:00:00.000Z" itemprop="datePublished">2018-12-05</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/12/05/Flex布局-一个前端工程师必不可缺的布局/" class="title">Flex布局-一个前端工程师必不可缺的布局</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-12-05T02:19:41.000Z" itemprop="datePublished">2018-12-05</time>
               </p>
             </div>
           </li>
@@ -316,14 +321,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-亮眼操作：关于vux的v-transfer-dom的指令" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <article id="post-JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      亮眼操作：关于vux的v-transfer-dom的指令
+      对于制作滚动代码。JS中offsetTop、clientTop、scrollTop各位置属性详解
     </h1>
   
 
@@ -331,8 +336,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/" class="article-date">
-	  <time datetime="2018-12-06T02:19:41.000Z" itemprop="datePublished">2018-12-06</time>
+	<a href="/2018/12/12/JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解/" class="article-date">
+	  <time datetime="2018-12-12T07:31:21.947Z" itemprop="datePublished">2018-12-12</time>
 	</a>
 </span>
         
@@ -340,23 +345,25 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/12/JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <blockquote>
-<p>在我自己的移动端项目实战项目中， 我在封装组件的时候，偶尔会弹出很多框，列如还有一些遮罩搭配弹窗的东西。 往往，我们为了复用性更高。 我们会封装成<strong>组件</strong>。<br>问题来了， 我们要怎么定位到body的宽度，而去无视父组件的宽度和高度呢？ 这个时候，<strong>vux的v-transfer-dom</strong>指令， 就会让我们更容易的去封装这些弹框组。让代码更加简单</p>
+<p>最近在做自己的一个web端项目（XXX）。 然后在制作滚动代码的时候， 发现自己对offsetTop、clientTop、scrollTop、offsetTop忘记的有点多。。。以前可能对这个操作行云流水的。。。<br>哈哈哈，可能是做的公司Vue项目多， 很少用DOM操作。 突然来做一个滚动代码。。。。。所以，还是得温故而知新</p>
 </blockquote>
-<p>在我们开发的过程中，我们用到了Vux,而且遇到 <strong>Alert</strong> <strong>Popup</strong> <strong>XDialog</strong>等组件，我们可以用v-transfer-dom实现移动到body下。</p>
-<blockquote>
-<p>必须有一个 <strong>div</strong> 作为占位元素否则会出错</p>
-</blockquote>
-<h4 id="1使用-注册局部指令"><a href="#1使用-注册局部指令" class="headerlink" title="1使用  注册局部指令"></a>1使用  注册局部指令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &#123; TransferDom &#125; from &apos;vux&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  directives: &#123;</span><br><span class="line">    TransferDom</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面注意是在Vue 中的directives中引用这个指令</p>
-<h4 id="模板使用"><a href="#模板使用" class="headerlink" title="模板使用"></a>模板使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-transfer-dom&gt;</span><br><span class="line">  &lt;popup v-model=&quot;show&quot;&gt;&lt;/popup&gt;</span><br><span class="line">&lt;div&gt;</span><br></pre></td></tr></table></figure>
-<p>如果有博友想了解更多的关于移动端的布局。 现阶段的移动端的布局。 CSS可以去学习一下<strong>flex</strong>布局。 很适合现阶段的移动端布局</p>
+<p>转载：<a href="https://github.com/pramper/Blog/issues/10" target="_blank" rel="noopener">https://github.com/pramper/Blog/issues/10</a></p>
+<p><img src="https://img-blog.csdn.net/20180104085724397" alt=""><br><img src="https://camo.githubusercontent.com/3318530334bbc8f5e7ce267866c43ba72fa01f32/687474703a2f2f6f61376436647871742e626b742e636c6f7564646e2e636f6d2f626c6f672f696d616765732f3038313734323039323736363338392e6a7067" alt=""></p>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p><strong>offsetTop, offsetLeft</strong>：只读属性。要确定的这两个属性的值，首先得确定元素的offsetParent。<br><strong>offsetParent指的是距该元素最近的position不为static的祖先元素，如果没有则指向body元素</strong>。确定了offsetParent，offsetLeft指的是元素左侧偏移offsetParent的距离，同理offsetTop指的是上侧偏移的距离。<br>offsetHeight, offsetWidth：只读属性。这两个属性返回的是元素的高度或宽度，<strong>包括元素的边框、内边距和滚动条</strong>。返回值是一个经过四舍五入的整数。<strong>（常用来计算为div的总宽度和总高度）</strong></p>
+<p><strong>scrollHeight, scrollWidth</strong>：只读属性。返回元素内容的整体尺寸，<strong>包括元素看不见的部分（需要滚动才能看见的）</strong>。返回值包括padding，但不包括margin和border。如下图：<br><img src="https://camo.githubusercontent.com/7d539d32766b01f59701492d56d2957d83c29d03/687474703a2f2f6f61376436647871742e626b742e636c6f7564646e2e636f6d2f626c6f672f696d616765732f7363726f6c6c4865696768742e706e67" alt=""></p>
+<p>scrollHeight：IE、Opera 认为 scrollHeight 是网页内容实际高度，可以小于 clientHeight。FF 认为 scrollHeight 是网页内容高度，不过最小值是 clientHeight。<br>scrollTop, scrollLeft：图中已经表示的很明白了。如果元素不能被滚动，则为0。<br>clientTop：元素上边框的厚度，当没有指定边框厚底时，一般为0<br>window.innerWidth, window.innerHeight：只读。<strong>视口（viewport）的尺寸，包含滚动条</strong><br>offsetHeight：获取对象相对于由offsetParent属性指定的父坐标(css定位的元素或body元素)的高度。IE、Opera 认为 offsetHeight = clientHeight + 滚动条 + 边框。FF 认为 <strong>offsetHeight 是网页内容实际高度</strong>，可以小于 clientHeight。offsetHeight在新版本的FF和IE中是一样的，表示网页的高度，与滚动条无关，chrome中不包括滚动条。<br>clientHeight, clientWidth：<strong>包括padding，但不包括border, margin和滚动条</strong>。如下图：<br><img src="https://camo.githubusercontent.com/e6efea72d00a9e63d840ebb3b00ae61c213992ed/687474703a2f2f6f61376436647871742e626b742e636c6f7564646e2e636f6d2f626c6f672f696d616765732f44696d656e73696f6e732d636c69656e742e706e67" alt=""></p>
+<p>———————————————–分隔线———————————————<br>clientX、clientY：相对于浏览器窗口<strong>可视区域的X，Y坐标（窗口坐标）</strong>，可视区域不包括工具栏和滚动条。<strong>IE事件和标准事件</strong>都定义了这2个属性。<strong>-手指移动的touches.clientY-自动这个属性。 可以来做手指滚动</strong></p>
+<p>pageX、pageY：类似于event.clientX、event.clientY，但它们使用的是文档坐标而非窗口坐标。这2个属性不是标准属性，但得到了广泛支持。IE事件中没有这2个属性。</p>
+<p>offsetX、offsetY：<strong>相对于事件源元素（target或srcElement）的X,Y坐标，只有IE事件有这2个属性，标准事件没有对应的属性</strong>。</p>
+<p>screenX、screenY：<strong>相对于用户显示器屏幕左上角的X,Y坐标</strong>。<strong>标准事件和IE事件</strong>都定义了这2个属性</p>
+<p> 常用的是clientX clientY   screenX、screenY</p>
 
       
     </div>
@@ -366,7 +373,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://bolianglll.github.io/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/" title="亮眼操作：关于vux的v-transfer-dom的指令" target="_blank" rel="external">https://bolianglll.github.io/2018/12/06/亮眼操作：关于vux的v-transfer-dom的指令/</a>
+      <a href="https://bolianglll.github.io/2018/12/12/JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解/" title="对于制作滚动代码。JS中offsetTop、clientTop、scrollTop各位置属性详解" target="_blank" rel="external">https://bolianglll.github.io/2018/12/12/JS中offsetTop、clientTop、scrollTop、offsetTop各位置属性详解/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -413,12 +420,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2018/12/11/Vue.js个人总结/" title="Vue.js个人经验总结"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/2018/12/13/localStorage、sessionStorage、Cookie的区别及用法/" title="localStorage、sessionStorage、Cookie的区别及用法"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/2018/12/06/在公司项目和自己实战项目的GIT干货操作/" title="在公司项目和自己实战项目的GIT干货操作"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/12/11/Vue.js个人总结/" title="Vue.js个人经验总结"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
