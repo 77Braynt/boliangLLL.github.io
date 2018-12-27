@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>为什么要前后端分离？各有什么优缺点？ | 凉薄凉 | blogs</title>
+  <meta name="description" content="前后分离就是在 架构层次 上 构建项目或对现有的项目 客户端 服务端 分离开，减少前后端代码的耦合度。">
+<meta name="keywords" content="面试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么要前后端分离？各有什么优缺点？">
+<meta property="og:url" content="https://bolianglll.github.io/2018/12/27/为什么要前后端分离？各有什么优缺点？/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前后分离就是在 架构层次 上 构建项目或对现有的项目 客户端 服务端 分离开，减少前后端代码的耦合度。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://bolianglll.github.io/2018/12/27/img/blog8_1">
+<meta property="og:updated_time" content="2018-12-27T07:13:26.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么要前后端分离？各有什么优缺点？">
+<meta name="twitter:description" content="前后分离就是在 架构层次 上 构建项目或对现有的项目 客户端 服务端 分离开，减少前后端代码的耦合度。">
+<meta name="twitter:image" content="https://bolianglll.github.io/2018/12/27/img/blog8_1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://bolianglll.github.io/2018/12/27/为什么要前后端分离？各有什么优缺点？/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/boliangLLL" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">伯伯伯亮</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一位热爱前端的攻城狮</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> GuangZhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/boliangLLL" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端优化/">前端优化</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp三次握手/">tcp三次握手</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络通识/">网络通识</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/js/" style="font-size: 13.5px;">js</a> <a href="/tags/tcp三次握手/" style="font-size: 13px;">tcp三次握手</a> <a href="/tags/性能/" style="font-size: 13px;">性能</a> <a href="/tags/网络通识/" style="font-size: 13px;">网络通识</a> <a href="/tags/闭包/" style="font-size: 13px;">闭包</a> <a href="/tags/面试题/" style="font-size: 14px;">面试题</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/面试题/">面试题</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/27/为什么要前后端分离？各有什么优缺点？/" class="title">为什么要前后端分离？各有什么优缺点？</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-27T07:09:21.703Z" itemprop="datePublished">2018-12-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/面试题/">面试题</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/27/跨域？？？跨域！！！/" class="title">跨域？？？跨域！！！</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-27T07:09:21.701Z" itemprop="datePublished">2018-12-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/js/">js</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/27/js如何判断数组是数组？/" class="title">js如何判断数组是数组？</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-27T07:09:21.699Z" itemprop="datePublished">2018-12-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/js/">js</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/27/js数据类型与检测/" class="title">js数据类型与检测</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-27T07:09:21.698Z" itemprop="datePublished">2018-12-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/前端优化/">前端优化</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/27/前端性能优化总结/" class="title">前端性能优化总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-27T07:09:21.696Z" itemprop="datePublished">2018-12-27</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-为什么要前后端分离？各有什么优缺点？" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为什么要前后端分离？各有什么优缺点？
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/12/27/为什么要前后端分离？各有什么优缺点？/" class="article-date">
+	  <time datetime="2018-12-27T07:09:21.703Z" itemprop="datePublished">2018-12-27</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/面试题/">面试题</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/面试题/">面试题</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/27/为什么要前后端分离？各有什么优缺点？/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>前后分离就是在 架构层次 上 构建项目或对现有的项目 客户端 服务端 分离开，减少前后端代码的耦合度。</p>
+</blockquote>
+<p><img src="../img/blog8_1" alt=""></p>
+<a id="more"></a>
+<h1 id="一、前端"><a href="#一、前端" class="headerlink" title="一、前端"></a>一、前端</h1><p>前后端分离已成为互联网项目开发的业界标准使用方式，通过nginx+tomcat的方式（也可以中间加一个nodejs）有效的进行解耦，并且前后端分离会为以后的大型分布式架构、弹性计算架构、微服务架构、多端化服务（多种客户端，例如：浏览器，车载终端，安卓，IOS等等）打下坚实的基础。这个步骤是系统架构从猿进化成人的必经之路。</p>
+<p>核心思想是前端html页面通过ajax调用后端的restuful api接口并使用json数据进行交互。</p>
+<p>在互联网架构中，名词解释：</p>
+<p>Web服务器：一般指像nginx，apache这类的服务器，他们一般只能解析静态资源。</p>
+<p>应用服务器：一般指像tomcat，jetty，resin这类的服务器可以解析动态资源也可以解析静态资源，但解析静态资源的能力没有web服务器好。</p>
+<p><code>一般都是只有web服务器才能被外网访问，应用服务器只能内网访问。</code></p>
+<h1 id="二、术业有专攻（开发人员分离）"><a href="#二、术业有专攻（开发人员分离）" class="headerlink" title="二、术业有专攻（开发人员分离）"></a>二、术业有专攻（开发人员分离）</h1><p>1、对于后端java工程师：</p>
+<p>把精力放在java基础，设计模式，jvm原理，spring+springmvc原理及源码，linux，mysql事务隔离与锁机制，mongodb，http/tcp，多线程，分布式架构，弹性计算架构，微服务架构，java性能优化，以及相关的项目管理等等。</p>
+<p>后端追求的是：三高（高并发，高可用，高性能），安全，存储，业务等等。</p>
+<p>2、对于前端工程师：</p>
+<p>把精力放在html5，css3，jquery，angularjs，bootstrap，reactjs，vuejs，webpack，less/sass，gulp，nodejs，Google V8引擎，javascript多线程，模块化，面向切面编程，设计模式，浏览器兼容性，性能优化等等。</p>
+<p>前端追求的是：页面表现，速度流畅，兼容性，用户体验等等。</p>
+<p>术业有专攻，这样你的核心竞争力才会越来越高，正所谓你往生活中投入什么，生活就会反馈给你什么。并且两端的发展都越来越高深，你想什么都会，那你毕竟什么都不精。</p>
+<p>通过将team分成前后端team，让两边的工程师更加专注各自的领域，独立治理，然后构建出一个全栈式的精益求精的team。</p>
+<h1 id="三、原始人时代（各种耦合）"><a href="#三、原始人时代（各种耦合）" class="headerlink" title="三、原始人时代（各种耦合）"></a>三、原始人时代（各种耦合）</h1><p>几曾何时，我们的JavaWeb项目都是使用了若干后台框架，springmvc/struts + spring + spring jdbc/hibernate/mybatis 等等。</p>
+<p>大多数项目在java后端都是分了三层，控制层，业务层，持久层。控制层负责接收参数，调用相关业务层，封装数据，以及路由&amp;渲染到jsp页面。然后jsp页面上使用各种标签或者手写java表达式将后台的数据展现出来，玩的是MVC那套思路。</p>
+<p>我们先看这种情况：需求定完了，代码写完了，测试测完了，然后呢？要发布了吧？你需要用maven或者eclipse等工具把你的代码打成一个war包，然后把这个war包发布到你的生产环境下的web容器里，对吧？</p>
+<p>发布完了之后，你要启动你的web容器，开始提供服务，这时候你通过配置域名，dns等等相关，你的网站就可以访问了（假设你是个网站）。那我们来看，你的前后端代码是不是全都在那个war包里？包括你的js，css，图片，各种第三方的库，对吧？</p>
+<p>好，下面在浏览器中输入你的网站域名（<a href="http://www.xxx.com），之后发生了什么？（这个问题也是很多公司的面试题）我捡干的说了啊，基础不好的童鞋请自己去搜。" target="_blank" rel="noopener">www.xxx.com），之后发生了什么？（这个问题也是很多公司的面试题）我捡干的说了啊，基础不好的童鞋请自己去搜。</a></p>
+<p>浏览器在通过域名通过dns服务器找到你的服务器外网ip,将http请求发送到你的服务器，在tcp3次握手之后（http下面是tcp/ip），通过tcp协议开始传输数据，你的服务器得到请求后，开始提供服务，接收参数，之后返回你的应答给浏览器，浏览器再通过content-type来解析你返回的内容，呈现给用户。</p>
+<p>那么我们来看，我们先假设你的首页中有100张图片，此时，用户的看似一次http请求，其实并不是一次，用户在第一次访问的时候，浏览器中不会有缓存，你的100张图片，浏览器要连着请求100次http请求（有人会跟我说http长连短连的问题，不在这里讨论），你的服务器接收这些请求，都需要耗费内存去创建socket来玩tcp传输（消耗你服务器上的计算资源）。</p>
+<p>重点来了，这样的话，你的服务器的压力会非常大，因为页面中的所有请求都是只请求到你这台服务器上，如果1个人还好，如果10000个人并发访问呢（先不聊服务器集群，这里就说是单实例服务器），那你的服务器能扛住多少个tcp连接？你的带宽有多大？你的服务器的内存有多大？你的硬盘是高性能的吗？你能抗住多少IO？你给web服务器分的内存有多大？会不会宕机？</p>
+<p>这就是为什么，越是大中型的web应用，他们越是要解耦。理论上你可以把你的数据库+应用服务+消息队列+缓存+用户上传的文件+日志+等等都扔在一台服务器上，你也不用玩什么服务治理，也不用做什么性能监控，什么报警机制等等，就乱成一锅粥好了。但是这样就好像是你把鸡蛋都放在一个篮子里，隐患非常大。如果因为一个子应用的内存不稳定导致整个服务器内存溢出而hung住，那你的整个网站就挂掉了。</p>
+<p>如果出意外挂掉，而恰好这时你们的业务又处于井喷式发展高峰期，那么恭喜你，业务成功被技术卡住，很可能会流失大量用户，后果不堪设想。（注意：技术一定是要走在业务前面的，否则你将错过最佳的发展期哟，亲~）</p>
+<p>此外，你的应用全部都耦合在一起，相当于一个巨石，当服务端负载能力不足时，一般会使用负载均衡的方式，将服务器做成集群，这样其实你是在水平扩展一块块巨石，性能加速度会越来越低，要知道，本身负载就低的功能or模块是没有必要水平扩展的，在本文中的例子就是你的性能瓶颈不在前端，那干嘛要水平扩展前端呢？？？还有发版部署上线的时候，我明明只改了后端的代码，为什么要前端也跟着发布呢？？？</p>
+<p>正常的互联网架构，是都要拆开的，你的web服务器集群，你的应用服务器集群+文件服务器集群+数据库服务器集群+消息队列集群+缓存集群等等。</p>
+<h1 id="四、JSP的痛点"><a href="#四、JSP的痛点" class="headerlink" title="四、JSP的痛点"></a>四、JSP的痛点</h1><p>以前的javaWeb项目大多数使用jsp作为页面层展示数据给用户，因为流量不高，因此也没有那么苛刻的性能要求，但现在是大数据时代，对于互联网项目的性能要求是越来越高，因此原始的前后端耦合在一起的架构模式已经逐渐不能满足我们，因此我们需要需找一种解耦的方式，来大幅度提升我们的负载能力。</p>
+<p>1、动态资源和静态资源全部耦合在一起，服务器压力大，因为服务器会收到各种http请求，例如css的http请求，js的，图片的等等。一旦服务器出现状况，前后台一起玩完，用户体验极差。</p>
+<p>2、UI出好设计图后，前端工程师只负责将设计图切成html，需要由java工程师来将html套成jsp页面，出错率较高（因为页面中经常会出现大量的js代码），修改问题时需要双方协同开发，效率低下。</p>
+<p>3、jsp必须要在支持java的web服务器里运行（例如tomcat，jetty，resin等），无法使用nginx等（nginx据说单实例http并发高达5w，这个优势要用上），性能提不上来。</p>
+<p>4、第一次请求jsp，必须要在web服务器中编译成servlet，第一次运行会较慢。</p>
+<p>5、每次请求jsp都是访问servlet再用输出流输出的html页面，效率没有直接使用html高（是每次哟，亲~）。</p>
+<p>6、jsp内有较多标签和表达式，前端工程师在修改页面时会捉襟见肘，遇到很多痛点。</p>
+<p>7、如果jsp中的内容很多，页面响应会很慢，因为是同步加载。</p>
+<p>8、需要前端工程师使用java的ide（例如eclipse），以及需要配置各种后端的开发环境，你们有考虑过前端工程师的感受吗。</p>
+<p><code>基于上述的一些痛点，我们应该把整个项目的开发权重往前移，实现前后端真正的解耦！</code></p>
+<p>五、开发模式</p>
+<p>以前老的方式是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、产品经历/领导/客户提出需求</span><br><span class="line"></span><br><span class="line">2、UI做出设计图</span><br><span class="line"></span><br><span class="line">3、前端工程师做html页面</span><br><span class="line"></span><br><span class="line">4、后端工程师将html页面套成jsp页面（前后端强依赖，后端必须要等前端的html做好才能套jsp。如果html发生变更，就更痛了，开发效率低）</span><br><span class="line"></span><br><span class="line">5、集成出现问题</span><br><span class="line"></span><br><span class="line">6、前端返工</span><br><span class="line"></span><br><span class="line">7、后端返工</span><br><span class="line"></span><br><span class="line">8、二次集成</span><br><span class="line"></span><br><span class="line">9、集成成功</span><br><span class="line"></span><br><span class="line">10、交付</span><br></pre></td></tr></table></figure>
+<p>新的方式是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1、产品经历/领导/客户提出需求</span><br><span class="line"></span><br><span class="line">2、UI做出设计图</span><br><span class="line"></span><br><span class="line">3、前后端约定接口&amp;数据&amp;参数</span><br><span class="line"></span><br><span class="line">4、前后端并行开发（无强依赖，可前后端并行开发，如果需求变更，只要接口&amp;参数不变，就不用两边都修改代码，开发效率高）</span><br><span class="line"></span><br><span class="line">5、前后端集成</span><br><span class="line"></span><br><span class="line">6、前端页面调整</span><br><span class="line"></span><br><span class="line">7、集成成功</span><br><span class="line"></span><br><span class="line">8、交付</span><br></pre></td></tr></table></figure>
+<h1 id="六、请求方式"><a href="#六、请求方式" class="headerlink" title="六、请求方式"></a>六、请求方式</h1><p>以前老的方式是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、客户端请求</span><br><span class="line"></span><br><span class="line">2、服务端的servlet或controller接收请求（后端控制路由与渲染页面，整个项目开发的权重大部分在后端）</span><br><span class="line"></span><br><span class="line">3、调用service,dao代码完成业务逻辑</span><br><span class="line"></span><br><span class="line">4、返回jsp</span><br><span class="line"></span><br><span class="line">5、jsp展现一些动态的代码</span><br></pre></td></tr></table></figure></p>
+<p>新的方式是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1、浏览器发送请求</span><br><span class="line"></span><br><span class="line">2、直接到达html页面（前端控制路由与渲染页面，整个项目开发的权重前移）</span><br><span class="line"></span><br><span class="line">3、html页面负责调用服务端接口产生数据（通过ajax等等，后台返回json格式数据，json数据格式因为简洁高效而取代xml）</span><br><span class="line"></span><br><span class="line">4、填充html，展现动态效果，在页面上进行解析并操作DOM。</span><br><span class="line"></span><br><span class="line">总结一下新的方式的请求步骤：</span><br><span class="line"></span><br><span class="line">大量并发浏览器请求—&gt;web服务器集群(nginx)—&gt;应用服务器集群(tomcat)—&gt;文件/数据库/缓存/消息队列服务器集群</span><br><span class="line"></span><br><span class="line">同时又可以玩分模块，还可以按业务拆成一个个的小集群，为后面的架构升级做准备。</span><br></pre></td></tr></table></figure></p>
+<h1 id="七、前后分离的优势"><a href="#七、前后分离的优势" class="headerlink" title="七、前后分离的优势"></a>七、前后分离的优势</h1><p>1、可以实现真正的前后端解耦，前端服务器使用nginx。前端/WEB服务器放的是css，js，图片等等一系列静态资源（甚至你还可以css，js，图片等资源放到特定的文件服务器，例如阿里云的oss，并使用cdn加速），前端服务器负责控制页面引用&amp;跳转&amp;路由，前端页面异步调用后端的接口，后端/应用服务器使用tomcat（把tomcat想象成一个数据提供者），加快整体响应速度。（这里需要使用一些前端工程化的框架比如nodejs，react，router，react，redux，webpack）</p>
+<p>2、发现bug，可以快速定位是谁的问题，不会出现互相踢皮球的现象。页面逻辑，跳转错误，浏览器兼容性问题，脚本错误，页面样式等问题，全部由前端工程师来负责。接口数据出错，数据没有提交成功，应答超时等问题，全部由后端工程师来解决。双方互不干扰，前端与后端是相亲相爱的一家人。</p>
+<p>3、在大并发情况下，我可以同时水平扩展前后端服务器，比如淘宝的一个首页就需要2000+台前端服务器做集群来抗住日均多少亿+的日均pv。（去参加阿里的技术峰会，听他们说他们的web容器都是自己写的，就算他单实例抗10万http并发，2000台是2亿http并发，并且他们还可以根据预知洪峰来无限拓展，很恐怖，就一个首页。。。）</p>
+<p>4、减少后端服务器的并发/负载压力。除了接口以外的其他所有http请求全部转移到前端nginx上，接口的请求调用tomcat，参考nginx反向代理tomcat。且除了第一次页面请求外，浏览器会大量调用本地缓存。</p>
+<p>5、即使后端服务暂时超时或者宕机了，前端页面也会正常访问，只不过数据刷不出来而已。</p>
+<p>6、也许你也需要有微信相关的轻应用，那样你的接口完全可以共用，如果也有app相关的服务，那么只要通过一些代码重构，也可以大量复用接口，提升效率。（多端应用）</p>
+<p>7、页面显示的东西再多也不怕，因为是异步加载。</p>
+<p>8、nginx支持页面热部署，不用重启服务器，前端升级更无缝。</p>
+<p>9、增加代码的维护性&amp;易读性（前后端耦在一起的代码读起来相当费劲）。</p>
+<p>10、提升开发效率，因为可以前后端并行开发，而不是像以前的强依赖。</p>
+<p>11、在nginx中部署证书，外网使用https访问，并且只开放443和80端口，其他端口一律关闭（防止黑客端口扫描），内网使用http，性能和安全都有保障。</p>
+<p>12、前端大量的组件代码得以复用，组件化，提升开发效率，抽出来！</p>
+<h1 id="八、注意事项"><a href="#八、注意事项" class="headerlink" title="八、注意事项"></a>八、注意事项</h1><p>1、在开需求会议的时候，前后端工程师必须全部参加，并且需要制定好接口文档，后端工程师要写好测试用例（2个维度），不要让前端工程师充当你的专职测试，推荐使用chrome的插件postman或soapui或jmeter，service层的测试用例拿junit写。ps：前端也可以玩单元测试吗？</p>
+<p>2、上述的接口并不是java里的interface，说白了调用接口就是调用你controler里的方法。</p>
+<p>3、加重了前端团队的工作量，减轻了后端团队的工作量，提高了性能和可扩展性。</p>
+<p>4、我们需要一些前端的框架来解决类似于页面嵌套，分页，页面跳转控制等功能。（上面提到的那些前端框架）。</p>
+<p>5、如果你的项目很小，或者是一个单纯的内网项目，那你大可放心，不用任何架构而言，但是如果你的项目是外网项目，呵呵哒。</p>
+<p>6、 以前还有人在使用类似于velocity/freemarker等模板框架来生成静态页面，仁者见仁智者见智。</p>
+<p>7、这篇文章主要的目的是说jsp在大型外网java web项目中被淘汰掉，可没说jsp可以完全不学，对于一些学生朋友来说，jsp/servlet等相关的java web基础还是要掌握牢的，不然你以为springmvc这种框架是基于什么来写的？</p>
+<p>8、如果页面上有一些权限等等相关的校验，那么这些相关的数据也可以通过ajax从接口里拿。</p>
+<p>9、对于既可以前端做也可以后端做的逻辑，我建议是放到前端，为什么？因为你的逻辑需要计算资源进行计算，如果放到后端去run逻辑，则会消耗带宽&amp;内存&amp;cpu等等计算资源，你要记住一点就是服务端的计算资源是有限的，而如果放到前端，使用的是客户端的计算资源，这样你的服务端负载就会下降（高并发场景）。类似于数据校验这种，前后端都需要做！</p>
+<p>10、前端需要有机制应对后端请求超时以及后端服务宕机的情况，友好的展示给用户。</p>
+<h1 id="九、扩展阅读"><a href="#九、扩展阅读" class="headerlink" title="九、扩展阅读"></a>九、扩展阅读</h1><p>1、其实对于js，css，图片这类的静态资源可以考虑放到类似于阿里云的oss这类文件服务器上（如果是普通的服务器&amp;操作系统，存储在到达pb级的文件后，或者单个文件夹内的文件数量达到3-5万，io会有很严重的性能问题），再在oss上配cdn（全国子节点加速），这样你页面打开的速度像飞一样， 无论你在全国的哪个地方，并且你的nginx的负载会进一步降低。</p>
+<p>2、如果你要玩轻量级微服务架构，要使用nodejs做网关，用nodejs的好处还有利于seo优化，因为nginx只是向浏览器返回页面静态资源，而国内的搜索引擎爬虫只会抓取静态数据，不会解析页面中的js，这使得应用得不到良好的搜索引擎支持。同时因为nginx不会进行页面的组装渲染，需要把静态页面返回到浏览器，然后完成渲染工作，这加重了浏览器的渲染负担。浏览器发起的请求经过nginx进行分发，URL请求统一分发到nodejs，在nodejs中进行页面组装渲染；API请求则直接发送到后端服务器，完成响应。</p>
+<p>3、如果遇到跨域问题，spring4的CORS可以完美解决，但一般使用nginx反向代理都不会有跨域问题，除非你把前端服务和后端服务分成两个域名。JSONP的方式也被淘汰掉了。</p>
+<p>4、如果想玩多端应用，注意要去掉tomcat原生的session机制，要使用token机制，使用缓存（因为是分布式系统），做单点，对于token机制的安全性问题，可以搜一下jwt。</p>
+<p>5、前端项目中可以加入mock测试（构造虚拟测试对象来模拟后端，可以独立开发和测试），后端需要有详细的测试用例，保证服务的可用性与稳定性。</p>
+<h1 id="十、总结"><a href="#十、总结" class="headerlink" title="十、总结"></a>十、总结</h1><p>前后端分离并非仅仅只是一种开发模式，而是一种架构模式（前后端分离架构）。千万不要以为只有在撸代码的时候把前端和后端分开就是前后端分离了，需要区分前后端项目。前端项目与后端项目是两个项目，放在两个不同的服务器，需要独立部署，两个不同的工程，两个不同的代码库，不同的开发人员。前后端工程师需要约定交互接口，实现并行开发，开发结束后需要进行独立部署，前端通过ajax来调用http请求调用后端的restful api。前端只需要关注页面的样式与动态数据的解析&amp;渲染，而后端专注于具体业务逻辑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">关注点分离</span><br><span class="line">职责分离</span><br><span class="line">对的人做对的事</span><br><span class="line">更好的共建模式</span><br><span class="line">快速的反应变化</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://bolianglll.github.io/2018/12/27/为什么要前后端分离？各有什么优缺点？/" title="为什么要前后端分离？各有什么优缺点？" target="_blank" rel="external">https://bolianglll.github.io/2018/12/27/为什么要前后端分离？各有什么优缺点？/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/boliangLLL" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/boliangLLL" target="_blank"><span class="text-dark">伯伯伯亮</span><small class="ml-1x">一位热爱前端的攻城狮</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2018/12/27/跨域？？？跨域！！！/" title="跨域？？？跨域！！！"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/zhifubao.jpg" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatboliang.jpg" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/boliangLLL" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
