@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="大概先总结一下后面会总结。请等待 模仿去哪儿APP前端框架：Vue框架样式模板：iconfont,vue-awesome-swiper(vue里面推荐使用的轮播图)CSS:stylus数据传输工具：axious路由跳转：vue-router数据传输：get post的区别重点：GET把参数包含在URL中，POST通过request body传递参数。get的话 就是能获取数据， 但是不能保存。 就">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-29T04:44:43.930Z">
+<meta property="og:updated_time" content="2018-12-29T09:31:42.103Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="“实战项目用到的技术总结”">
 <meta name="twitter:description" content="大概先总结一下后面会总结。请等待 模仿去哪儿APP前端框架：Vue框架样式模板：iconfont,vue-awesome-swiper(vue里面推荐使用的轮播图)CSS:stylus数据传输工具：axious路由跳转：vue-router数据传输：get post的区别重点：GET把参数包含在URL中，POST通过request body传递参数。get的话 就是能获取数据， 但是不能保存。 就">
@@ -53,7 +53,7 @@
       
       <div class="profile-block text-center">
         <a id="avatar" href="https://github.com/boliangLLL" target="_blank">
-          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+          <img class="img-circle img-rotate" src="/images/lbl.jpg" width="200" height="200">
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">伯伯伯亮</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">一位热爱前端的攻城狮</h3>
@@ -370,8 +370,10 @@
         <h2 id="大概先总结一下"><a href="#大概先总结一下" class="headerlink" title="大概先总结一下"></a>大概先总结一下</h2><p>后面会总结。请等待</p>
 <h3 id="模仿去哪儿APP"><a href="#模仿去哪儿APP" class="headerlink" title="模仿去哪儿APP"></a>模仿去哪儿APP</h3><p>前端框架：Vue框架<br>样式模板：iconfont,vue-awesome-swiper(vue里面推荐使用的轮播图)<br>CSS:stylus<br>数据传输工具：axious<br>路由跳转：vue-router<br>数据传输：get post的区别<br>重点：GET把参数包含在URL中，POST通过request body传递参数。<br>get的话 就是能获取数据， 但是不能保存。 就是表单那些不能保存<br>Post的话 可以获取数据也能保存。</p>
 <p>另外：<br>GET请求在URL中传送的参数是有长度限制的，而POST么有。<br>GET请求只能进行url编码，而POST支持多种编码方式<br>数据存储：localStorage<br>代码管理:Git，码云 </p>
-<h3 id="函数节流-防抖"><a href="#函数节流-防抖" class="headerlink" title="函数节流/防抖"></a>函数节流/防抖</h3><p>em…最近做了个项目，在浏览器测试的时候没啥问题，但是放到手机上却会有抖动的问题，然后我就去网上查了一下原理，后面也</p>
-<h3 id="解决冒泡和快排的方法"><a href="#解决冒泡和快排的方法" class="headerlink" title="解决冒泡和快排的方法"></a>解决冒泡和快排的方法</h3>
+<h3 id="函数节流-防抖"><a href="#函数节流-防抖" class="headerlink" title="函数节流/防抖"></a>函数节流/防抖</h3><p>em…最近做了个项目，在浏览器测试的时候没啥问题，但是放到手机上却会有抖动的问题，然后我就去网上查了一下原理。分享下给大家</p>
+<p> 函数节流应用的实际场景，多数在监听页面元素滚动事件的时候会用到。因为滚动事件，是一个高频触发的事件。<br><strong>函数节流</strong>是指一定时间内js方法只跑一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 函数节流 （网上代码）</span><br><span class="line">let  canRun = true;</span><br><span class="line">document.getElementById(&quot;throttle&quot;).onscroll = function()&#123;</span><br><span class="line">    if(!canRun)&#123;</span><br><span class="line">        // 判断是否已空闲，如果在执行中，则直接return</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    canRun = false;</span><br><span class="line">    setTimeout(function()&#123;</span><br><span class="line">        console.log(&quot;函数节流&quot;);</span><br><span class="line">        canRun = true;</span><br><span class="line">    &#125;, 300);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><strong>函数防抖</strong>是指频繁触发的情况下，只有足够的空闲时间，才执行代码一次。比如生活中的坐公交，就是一定时间内，如果有人陆续刷卡上车，司机就不会开车。只有别人没刷卡了，司机才开车。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//自己实战代码</span><br><span class="line">函数防抖的实现重点，就是巧用setTimeout做缓存池，而且可以轻易地清除待执行的代码。</span><br><span class="line"> handleTouchMove(e) &#123;</span><br><span class="line">      if (this.touchStatus) &#123;</span><br><span class="line">        // const startY = this.$refs[&quot;A&quot;][0].offsetTop;</span><br><span class="line">        // console.log(startY)</span><br><span class="line">        if (this.timer) &#123;</span><br><span class="line">          clearTimeout(this.timer);</span><br><span class="line">        &#125;</span><br><span class="line">        this.timer = setTimeout(() =&gt; &#123;</span><br><span class="line">          const touchY = e.touches[0].clientY - 79;</span><br><span class="line">          const index = Math.floor((touchY - this.startY) / 20);</span><br><span class="line">          // console.log(index)</span><br><span class="line">          if (index &gt;= 0 &amp;&amp; index &lt; this.letters.length) &#123;</span><br><span class="line">            this.$emit(&quot;change&quot;, this.letters[index]);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;, 16);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     <div class="article-footer">
@@ -395,7 +397,7 @@
     <figure class="media">
       <div class="media-left">
         <a href="https://github.com/boliangLLL" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+          <img src="/images/lbl.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
@@ -432,7 +434,7 @@
     
     
     <li class="next">
-      <a href="/2018/12/13/localStorage、sessionStorage、Cookie的区别及用法/" title="localStorage、sessionStorage、Cookie的区别及用法"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2018/12/13/深入了解Vuex原理/" title="深入了解Vuex原理"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
