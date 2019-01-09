@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>封装组件升级-Vue中的$attrs和$listeners | 凉薄凉 | blogs</title>
+  <meta name="description" content="参考：https://www.jb51.net/article/132371.htm Vue中的$attrs和$listeners是Vue2.4才推出的，为了简化父组件和子组件的传值。 前言多级组件嵌套需要传递数据时，通常使用的方法是通过vuex。如果仅仅是传递数据，而不做中间处理，使用 vuex 处理，未免有点杀鸡用牛刀。Vue 2.4 版本提供了另一种方法，使用 v-bind=”$attrs”">
+<meta name="keywords" content="高级组件封装,Vue2.4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="封装组件升级-Vue中的$attrs和$listeners">
+<meta property="og:url" content="https://bolianglll.github.io/2019/01/08/封装组件升级-Vue中的$attrs和$listeners/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="参考：https://www.jb51.net/article/132371.htm Vue中的$attrs和$listeners是Vue2.4才推出的，为了简化父组件和子组件的传值。 前言多级组件嵌套需要传递数据时，通常使用的方法是通过vuex。如果仅仅是传递数据，而不做中间处理，使用 vuex 处理，未免有点杀鸡用牛刀。Vue 2.4 版本提供了另一种方法，使用 v-bind=”$attrs”">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-08T07:53:12.398Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="封装组件升级-Vue中的$attrs和$listeners">
+<meta name="twitter:description" content="参考：https://www.jb51.net/article/132371.htm Vue中的$attrs和$listeners是Vue2.4才推出的，为了简化父组件和子组件的传值。 前言多级组件嵌套需要传递数据时，通常使用的方法是通过vuex。如果仅仅是传递数据，而不做中间处理，使用 vuex 处理，未免有点杀鸡用牛刀。Vue 2.4 版本提供了另一种方法，使用 v-bind=”$attrs”">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://bolianglll.github.io/2019/01/08/封装组件升级-Vue中的$attrs和$listeners/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/boliangLLL" target="_blank">
+          <img class="img-circle img-rotate" src="/images/lbl.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">伯伯伯亮</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">一位热爱前端的攻城狮</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> GuangZhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search">
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech="">
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope="" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/boliangLLL" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope="" itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端优化/">前端优化</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试题/">面试题</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/项目总结/">项目总结</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue2-4/">Vue2.4</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue框架体系学习/">Vue框架体系学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/">http</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tcp三次握手/">tcp三次握手</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/主讲框架内容，少业务知识/">主讲框架内容，少业务知识</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能/">性能</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络通识/">网络通识</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/闭包/">闭包</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/高级组件封装/">高级组件封装</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Vue2-4/" style="font-size: 13px;">Vue2.4</a> <a href="/tags/Vue框架体系学习/" style="font-size: 13px;">Vue框架体系学习</a> <a href="/tags/http/" style="font-size: 13px;">http</a> <a href="/tags/js/" style="font-size: 14px;">js</a> <a href="/tags/tcp三次握手/" style="font-size: 13px;">tcp三次握手</a> <a href="/tags/主讲框架内容，少业务知识/" style="font-size: 13px;">主讲框架内容，少业务知识</a> <a href="/tags/性能/" style="font-size: 13px;">性能</a> <a href="/tags/网络通识/" style="font-size: 13px;">网络通识</a> <a href="/tags/闭包/" style="font-size: 13px;">闭包</a> <a href="/tags/面试题/" style="font-size: 14px;">面试题</a> <a href="/tags/高级组件封装/" style="font-size: 13px;">高级组件封装</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2019/01/09/Vue深参透/" class="title">Vue核心技术vuex+vux+webpack学习+SSR服务端渲染</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-01-09T02:56:03.521Z" itemprop="datePublished">2019-01-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2019/01/08/封装组件升级-Vue中的$attrs和$listeners/" class="title">封装组件升级-Vue中的$attrs和$listeners</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-01-08T06:34:49.213Z" itemprop="datePublished">2019-01-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/前端优化/">前端优化</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/27/前端性能优化总结/" class="title">前端性能优化总结</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-27T07:09:21.696Z" itemprop="datePublished">2018-12-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/27/输入URL到浏览器经过了哪些过程？如何渲染以及优化？/" class="title">输入URL到浏览器经过了哪些过程？如何渲染以及优化？</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-27T07:09:21.694Z" itemprop="datePublished">2018-12-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/20/成长的点点滴滴基础/" class="title">成长的点点滴滴基础</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-20T02:19:41.000Z" itemprop="datePublished">2018-12-20</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-封装组件升级-Vue中的$attrs和$listeners" class="article article-type-post" itemscope="" itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      封装组件升级-Vue中的$attrs和$listeners
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/01/08/封装组件升级-Vue中的$attrs和$listeners/" class="article-date">
+	  <time datetime="2019-01-08T06:34:49.213Z" itemprop="datePublished">2019-01-08</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Vue2-4/">Vue2.4</a>, <a class="article-tag-link" href="/tags/高级组件封装/">高级组件封装</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/01/08/封装组件升级-Vue中的$attrs和$listeners/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>参考：<a href="https://www.jb51.net/article/132371.htm" target="_blank" rel="noopener">https://www.jb51.net/article/132371.htm</a></p>
+<p><strong>Vue中的$attrs和$listeners是Vue2.4才推出的，为了简化父组件和子组件的传值。</strong></p>
+<p><strong>前言</strong><br>多级组件嵌套需要传递数据时，通常使用的方法是通过vuex。如果仅仅是传递数据，而不做中间处理，使用 vuex 处理，未免有点杀鸡用牛刀。Vue 2.4 版本提供了另一种方法，使用 v-bind=”$attrs”, 将父组件中不被认为 props特性绑定的属性传入子组件中，通常配合 interitAttrs 选项一起使用。之所以要提到这两个属性，是因为两者的出现使得组件之间跨组件的通信在不依赖 vuex 和事件总线的情况下变得简洁，业务清晰。</p>
+<p><strong>首先分析以下应用场景：</strong><br><strong>A 组件与 B 组件之间的通信： （父子组件）</strong><br>A、B、C三个组件依次嵌套，按照 Vue 的开发习惯，父子组件通信可以通过以下方式实现：</p>
+<p>A to B 通过props的方式向子组件传递，B to A 通过在 B 组件中 $emit, A 组件中 v-on 的方式实现<br>通过设置全局Vuex共享状态，通过 computed 计算属性和 commit mutation的方式实现数据的获取和更新，以达到父子组件通信的目的。<br>Vue Event Bus，使用Vue的实例，实现事件的监听和发布，实现组件之间的传递。<br>往往数据在不需要全局的情况而仅仅是父子组件通信时，使用第一种方式即可满足。<br><strong>A 组件与 C 组件之间的通信： （跨多级的组件嵌套关系）</strong><br>A 组件与 C 组件之间属于跨多级的组件嵌套关系，以往两者之间如需实现通信，往往通过以下方式实现：</p>
+<p>借助 B 组件的中转，从上到下props依次传递，从下至上，$emit事件的传递，达到跨级组件通信的效果<br>借助Vuex的全局状态共享<br>Vue Event Bus，使用Vue的实例，实现事件的监听和发布，实现组件之间的传递。<br>很显然，第一种通过props和$emit的方式，使得组件之间的业务逻辑臃肿不堪，B组件在其中仅仅充当的是一个中转站的作用。如使用第二种 Vuex的方式，某些情况下似乎又有点大材小用的意味，（仅仅是想实现组件之间的一个数据传递，并非数据共享的概念）。第三种情况的使用在实际的项目操作中发现，如不能实现很好的事件监听与发布的管理，往往容易导致数据流的混乱，在多人协作的项目中，不利于项目的维护。</p>
+<hr>
+<p><strong>$attrs以及$listeners的出现解决的就是第一种情况的问题，B 组件在其中传递props以及事件的过程中，不必在写多余的代码，仅仅是将$attrs以及$listeners向上或者向下传递即可。</strong></p>
+<p>代码解析：<br>关于inheritAttrs 用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;body class=&quot;&quot;&gt;</span><br><span class="line">    &lt;div id=&quot;app&quot; class=&quot;demo&quot;&gt;</span><br><span class="line">        &lt;base-input label=&quot;姓名&quot; class=&quot;username-input&quot; placeholder=&quot;Enter your username&quot; data-date-picker=&quot;activated&quot;&gt;&lt;/base-input&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;script src=&quot;js/vue-2.5.13.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    Vue.component(&quot;base-input&quot;, &#123;</span><br><span class="line">        inheritAttrs: false, //此处设置禁用继承特性</span><br><span class="line">        props: [&quot;label&quot;],</span><br><span class="line">        template: `</span><br><span class="line">        &lt;label&gt;</span><br><span class="line">          &#123;&#123;label&#125;&#125;</span><br><span class="line">          &#123;&#123;$attrs.placeholder&#125;&#125;</span><br><span class="line">          &#123;&#123;$attrs[&quot;data-date-picker&quot;]&#125;&#125;</span><br><span class="line">          &lt;input v-bind=&quot;$attrs&quot;/&gt;</span><br><span class="line">        &lt;/label&gt;</span><br><span class="line">        `,</span><br><span class="line">        mounted: function() &#123;</span><br><span class="line">            console.log(this.$attrs);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    const app = new Vue(&#123;</span><br><span class="line">        el: &apos;#app&apos;,</span><br><span class="line">        data: &#123;</span><br><span class="line"> </span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure></p>
+<p>上面的例子渲染后的HTML如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;label class=&quot;username-input&quot;&gt;</span><br><span class="line">    姓名 </span><br><span class="line">    Enter your username </span><br><span class="line">    activated</span><br><span class="line">    &lt;input placeholder=&quot;Enter your username&quot; data-date-picker=&quot;activated&quot;&gt;</span><br><span class="line">    //父组件的属性会传给Input</span><br><span class="line">&lt;/label&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如果把上面例子中的inheritAttrs: false去掉或者改为inheritAttrs: true，最终渲染为：（看场景使用）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//这个组件也包含了父组件的属性</span><br><span class="line">&lt;label placeholder=&quot;Enter your username&quot; data-date-picker=&quot;activated&quot; class=&quot;username-input&quot;&gt;</span><br><span class="line">    姓名</span><br><span class="line">    Enter your username</span><br><span class="line">    activated</span><br><span class="line">    &lt;input placeholder=&quot;Enter your username&quot; data-date-picker=&quot;activated&quot;&gt;</span><br><span class="line">     //父组件的属性会传给Input</span><br><span class="line">&lt;/label&gt;</span><br></pre></td></tr></table></figure></p>
+<p>例2：假设有三个组件A组件包含B,B组件包含C组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">A组件（App.vue）</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">        &lt;child1 :p-child1=&quot;child1&quot; :p-child2=&quot;child2&quot; v-on:test1=&quot;onTest1&quot; //此处监听了两个事件，可以在B组件或者C组件中直接触发 v-on:test2=&quot;onTest2&quot;&gt;</span><br><span class="line">        &lt;/child1&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Child1 from &apos;./Child1.vue&apos;;</span><br><span class="line">export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    components: &#123; Child1 &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">        onTest1() &#123;</span><br><span class="line">            console.log(&apos;test1 running...&apos;);</span><br><span class="line">        &#125;,</span><br><span class="line">        onTest2() &#123;</span><br><span class="line">            console.log(&apos;test2 running&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> </span><br><span class="line">B组件（Child1.vue）</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;child-1&quot;&gt;</span><br><span class="line">        &lt;p&gt;in child1:&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;props: &#123;&#123;pChild1&#125;&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;$attrs: &#123;&#123;$attrs&#125;&#125;&lt;/p&gt;</span><br><span class="line">        &lt;hr&gt;</span><br><span class="line">        &lt;!-- C组件中能直接触发test的原因在于 B组件调用C组件时 使用 v-on 绑定了$listeners 属性 --&gt;</span><br><span class="line">        &lt;!-- 通过v-bind 绑定$attrs属性，C组件可以直接获取到A组件中传递下来的props（除了B组件中props声明的） --&gt;</span><br><span class="line">        &lt;child2 v-bind=&quot;$attrs&quot; v-on=&quot;$listeners&quot;&gt;&lt;/child2&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Child2 from &apos;./Child2.vue&apos;;</span><br><span class="line">export default &#123;</span><br><span class="line">    props: [&apos;pChild1&apos;],</span><br><span class="line">    data() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    inheritAttrs: false,</span><br><span class="line">    components: &#123; Child2 &#125;,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">        this.$emit(&apos;test1&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> ****************************************</span><br><span class="line"> 结果：</span><br><span class="line">in child1:</span><br><span class="line">props: child1</span><br><span class="line">$attrs: &#123; “p-child2”: “v_child2”&#125; //不包含Props属性 pChild1</span><br><span class="line"> ****************************************</span><br><span class="line">C 组件 (Child2.vue)</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div class=&quot;child-2&quot;&gt;</span><br><span class="line">        &lt;p&gt;in child2:&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;props: &#123;&#123;pChild2&#125;&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;$attrs: &#123;&#123;$attrs&#125;&#125;&lt;/p&gt;</span><br><span class="line">        &lt;hr&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">    props: [&apos;pChild2&apos;],</span><br><span class="line">    data() &#123;</span><br><span class="line">        return &#123;&#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    inheritAttrs: false,</span><br><span class="line">    mounted() &#123;</span><br><span class="line">        this.$emit(&apos;test2&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">********************************</span><br><span class="line">结果：</span><br><span class="line">in child2:</span><br><span class="line">props: child2</span><br><span class="line">$attrs: &#123;&#125;</span><br><span class="line"></span><br><span class="line">console.log(&apos;test2 running&apos;); //因为B组件用了Listener。会把监听时间也传给C。所以C也能触发A组件的test2</span><br><span class="line">********************************</span><br></pre></td></tr></table></figure></p>
+<p>因为在网上找的文章，很少关于$listeners的优化方案。 我在一篇前端高级Vue的文章，看到了一些关于$listeners的优化方案。 分享其的优化方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//子组件</span><br><span class="line">&lt;input :value=&quot;value&quot; v-bind=&quot;$attrs&quot; @input=&quot;$emit(&apos;input&apos;,$event.target.value)&quot;&gt;</span><br><span class="line">但是我们也想把父组件的事件，让input框使用。 这个时候，我们可以想到$listeners 但是这样的话，Input框的内容也会过多和复杂。</span><br><span class="line">所以解决方案</span><br><span class="line"></span><br><span class="line">&lt;input :value=&quot;values&quot; v-bind=&quot;$attrs&quot; v-on=&quot;allListeners&quot;&gt;</span><br><span class="line">computed:&#123;</span><br><span class="line">    allLlisteners()&#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            ...this.$listeners, //把父组件的事件放进来</span><br><span class="line">            input:event =&gt;&#123;this.$emit(&apos;input&apos;,event.target.value)&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>$attrs</strong><br> 包含了父作用域中不被认为 (且不预期为) props 的特性绑定 (class 和 style 除外)。当一个组件没有声明任何 props 时，这里会包含所有父作用域的绑定 (class 和 style 除外)，并且可以通过 v-bind=”$attrs” 传入内部组件——在创建更高层次的组件时非常有用</p>
+<p> <strong>$listeners</strong><br> 包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on=”$listeners” 传入内部组件——在创建更高层次的组件时非常有用。<br> <strong>inheritAttrs</strong><br> 默认情况下父作用域的不被认作 props 的特性绑定 (attribute bindings) 将会“回退”且作为普通的 HTML 特性应用在子组件的根元素上。当撰写包裹一个目标元素或另一个组件的组件时，这可能不会总是符合预期行为。通过设置 inheritAttrs 到 false，这些默认行为将会被去掉。而通过 (同样是 2.4 新增的) 实例属性 $attrs 可以让这些特性生效，且可以通过 v-bind 显性的绑定到非根元素上。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://bolianglll.github.io/2019/01/08/封装组件升级-Vue中的$attrs和$listeners/" title="封装组件升级-Vue中的$attrs和$listeners" target="_blank" rel="external">https://bolianglll.github.io/2019/01/08/封装组件升级-Vue中的$attrs和$listeners/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/boliangLLL" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/lbl.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/boliangLLL" target="_blank"><span class="text-dark">伯伯伯亮</span><small class="ml-1x">一位热爱前端的攻城狮</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom="">
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/01/09/Vue深参透/" title="Vue核心技术vuex+vux+webpack学习+SSR服务端渲染"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/12/27/前端性能优化总结/" title="前端性能优化总结"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/zhifubao.jpg" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatboliang.jpg" alt="Scan Qrcode" title="Scan">
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope="" itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/boliangLLL" target="_blank" title="Github" data-toggle="tooltip" data-placement="top"><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
